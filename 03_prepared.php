@@ -2,11 +2,6 @@
 
 include 'db_credentials.php';
 
-function voegBerichtToe($conn, $inhoud) {
-    $sql = "INSERT INTO messages(inhoud, tijdstip)
-        VALUES('$inhoud', now())";
-    $conn->exec($sql);
-}
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
@@ -18,9 +13,14 @@ try {
     // vervolledig de code om 3 testberichten toe te voegen
     // m.b.v. bovenstaand prepared statement
 
-    voegBerichtToe($conn, "Testbericht 1");
-    voegBerichtToe($conn, "Testbericht 2");
-    voegBerichtToe($conn, "Testbericht 3");
+    $stmt->bindParam(":inhoud", $inhoud);
+
+	$inhoud = "Test1";
+	$stmt->execute();
+	$inhoud = "Test2";
+    $stmt->execute();
+ 	$inhoud = "Test3";
+ 	$stmt->execute();
     echo "3 testberichten toegevoegd...";
 }
 catch(PDOException $e)
